@@ -62,7 +62,7 @@ public class DFSAndBFSGraphDemo {
 			Node nod = lqueue.poll();
 			if(!nod.visited) {
 				nod.visited = true;
-				
+				nod.getSeenNode().add(nod);
 			}
 			
 			List<Node> lst = nod.getSeenNode();
