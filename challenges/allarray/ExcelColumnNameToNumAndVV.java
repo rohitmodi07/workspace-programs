@@ -62,34 +62,7 @@ public class ExcelColumnNameToNumAndVV {
 		
 	}
 	
-	public static int getAllPossiblePalindrom(String str) {
-		
-		if(str.isEmpty())
-			return 0;
-        
-        int count = 0;
-        for(int i = 0; i < str.length(); i++) {
-        	
-        	count += helper(str, i, i);
-        	count += helper(str, i, i+1);
-        }
-        
-        return count;
-        
-	}
-	
-	public static int helper(String str, int begin, int end) {
-		
-		int count = 0;
-		
-		while(begin>=str.length()-1 && end<=str.length()-1 && str.charAt(begin) == str.charAt(end)) {
-			begin--;
-			end++;
-			count++;
-		}
-		return count;
-		
-	}
+
 	    
     public static void main(String[] args) {
      
@@ -106,7 +79,6 @@ public class ExcelColumnNameToNumAndVV {
     	System.out.println(getExcelColumnNumberBasedOnColumnName("Z"));
     	System.out.println(getExcelColumnNumberBasedOnColumnName("AC"));
     	
-    	System.out.println(getAllPossiblePalindrom("AAA"));
     }
 
 }

@@ -42,14 +42,16 @@ public class DFSAndBFSGraphDemo {
 			Node nod = stk.pop();
 			if(!nod.visited) {
 				nod.visited = true;
-				nod.getSeenNode().add(nod);
-			}
-			List<Node> lst = nod.getSeenNode();
-			for(Node nd : lst) {
-				if(nd!=null && !nd.visited) {
-					stk.push(nd);
+				System.out.println(" "+nod.data);
+				
+				List<Node> lst = nod.getSeenNode();
+				for(Node nd : lst) {
+					if(nd!=null && !nd.visited) {
+						stk.push(nd);
+					}
 				}
 			}
+			
 		}
 	}
 	
@@ -62,15 +64,17 @@ public class DFSAndBFSGraphDemo {
 			Node nod = lqueue.poll();
 			if(!nod.visited) {
 				nod.visited = true;
-				nod.getSeenNode().add(nod);
-			}
-			
-			List<Node> lst = nod.getSeenNode();
-			for(Node nd : lst) {
-				if(nd!=null && !nd.visited) {
-					lqueue.add(nd);
+				System.out.println(" "+nod.data);
+				
+				List<Node> lst = nod.getSeenNode();
+				for(Node nd : lst) {
+					if(nd!=null && !nd.visited) {
+						lqueue.add(nd);
+					}
 				}
 			}
+			
+			
 		}
 	}	
 	

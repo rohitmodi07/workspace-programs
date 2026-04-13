@@ -11,9 +11,9 @@ public class FindMaxProfitInStock {
 		int min = stock[0];
 		
 		for(int i = 1; i < stock.length; i++) {
+			min = Math.min(min, stock[i]);
 			diff = stock[i]-min;
 			profit = Math.max(profit, diff);
-			min = Math.min(min, stock[i]);
 		}
 		return profit;
 		

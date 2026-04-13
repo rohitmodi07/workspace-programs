@@ -11,6 +11,10 @@ public class CompletableFutureDemo1 {
 		  .thenAccept(System.out::println);
 	}
 	
+	public int getData() {
+		return 10;
+	}
+	
 	
 	    
     public static void main(String[] args) throws InterruptedException, ExecutionException {
@@ -19,7 +23,7 @@ public class CompletableFutureDemo1 {
     	
     	CompletableFuture<Integer> cfuture = new CompletableFuture<>();
     	
-    	cfuture.complete(10);
+    	cfuture.complete(tp.getData());
     	
     	tp.addData(cfuture);
 	

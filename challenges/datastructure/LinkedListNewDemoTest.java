@@ -341,6 +341,7 @@ public class LinkedListNewDemoTest {
 			prev = cur;
 			cur = next;
 		}
+		prev = head;
 		return prev;
 	}
 	
@@ -351,15 +352,15 @@ public class LinkedListNewDemoTest {
 			return null;
 		Node cur = head;
 		Set<Node> hset = new HashSet<>();
-		Node prev = head;
+		Node prev = null;
 		
 		while(cur.getNext()!=null) {
 			if(!hset.contains(cur)) {
 				hset.add(cur);
-				cur = cur.getNext();
-				prev.setNext(cur);
 				prev = cur;
+				cur = cur.getNext();
 			}else {
+				prev.setNext(cur);
 				cur = cur.getNext();
 			}
 			
@@ -441,278 +442,434 @@ public class LinkedListNewDemoTest {
 	
 	//detect cycle in the list
 	
-		public boolean cycleInLinkedList(Node head) {
-			if(head == null)
-				return false;
-			Node slow = head;
-			Node fast = head;
-			
-			while(fast != null) {
-				fast = fast.getNext().getNext();
-				slow = slow.getNext();
-				
-				if(slow == fast) {
-					return true;
-				}
-			}
+	public boolean cycleInLinkedList(Node head) {
+		if(head == null)
 			return false;
-		}
+		Node slow = head;
+		Node fast = head;
 		
-		public boolean findCycleInLinkedList(Node head) {
-			if(head == null)
-				return false;
-			Node cur = head;
-			Set<Node> nset = new HashSet<>();
+		while(fast != null) {
+			fast = fast.getNext().getNext();
+			slow = slow.getNext();
 			
-			while(cur != null) {
-				if(!nset.add(cur)) {
-					return true;
-				}
-				cur = cur.getNext();
+			if(slow == fast) {
+				return true;
 			}
+		}
+		return false;
+	}
+	
+	public boolean findCycleInLinkedList(Node head) {
+		if(head == null)
 			return false;
-		}
+		Node cur = head;
+		Set<Node> nset = new HashSet<>();
 		
-		//merge two sorted list
-		
-		public Node mergeSortedList(Node node1, Node node2) {
-			
-			Node temp = new Node(0);
-			Node node3 = temp;
-			
-			while(node1 != null || node2 != null) {
-				int val1 = node1 != null ? node1.getData() : 0;
-				int val2 = node2 != null ? node2.getData() : 0;
-				
-				if(val1>val2) {
-					Node tmp = new Node(val2);
-					node3.setNext(tmp);
-					if(node2.getNext() != null) {
-						node2 = node2.getNext();
-					}
-				}else if(val1<val2) {
-					Node tmp = new Node(val1);
-					node3.setNext(tmp);
-					if(node1.getNext() != null) {
-						node1 = node1.getNext();
-					}
-				}else {
-					if(val1 != 0 && val2 != 0) {
-						Node tmp1 = new Node(val1);
-						Node tmp2 = new Node(val2);
-						tmp1.setNext(tmp2);
-						node3.setNext(tmp1);
-					}
-				}
-				node3 = node3.getNext();
+		while(cur != null) {
+			if(!nset.add(cur)) {
+				return true;
 			}
-			return temp.getNext();
+			cur = cur.getNext();
 		}
+		return false;
+	}
+	
+	//merge two sorted list
+	
+	public Node mergeSortedList(Node node1, Node node2) {
 		
-	    public Node mergeSortedListRemoveDup(Node node1, Node node2) {
-			
-			Node temp = new Node(0);
-			Node node3 = temp;
-			
-			while(node1 != null || node2 != null) {
-				int val1 = node1 != null ? node1.getData() : 0;
-				int val2 = node2 != null ? node2.getData() : 0;
-				
-				if(val1>val2) {
-					Node tmp = new Node(val2);
-					node3.setNext(tmp);
-					if(node2 != null) {
-						node2 = node2.getNext();
-					}
-				}else if(val1<=val2) {
-					Node tmp = new Node(val1);
-					node3.setNext(tmp);
-					if(node1 != null) {
-						node1 = node1.getNext();
-					}
-				}
-				node3 = node3.getNext();
-			}
-			return temp.getNext();
-		}
-	    
-	    //merge a list of linkedlist
-	    
-	    public Node mergeListOfLinkedList(List<Node> listOfNodes) {
-	    	
-	    	if(listOfNodes.isEmpty())
-	    		return null;
-	    	
-	    	return mergeList(listOfNodes, 0, listOfNodes.size()-1);
-	    	
-	    }
+		Node temp = new Node(0);
+		Node node3 = temp;
 		
-
-		private Node mergeList(List<Node> listOfNodes, int start, int end) {
+		while(node1 != null || node2 != null) {
+			int val1 = node1 != null ? node1.getData() : 0;
+			int val2 = node2 != null ? node2.getData() : 0;
 			
-			if(start == end) {
-				return listOfNodes.get(start);
-			}
-			
-			if(start + 1 == end) {
-				merge(listOfNodes.get(start), listOfNodes.get(end));
-			}
-			
-			int mid = start + (end - start)/2;
-			
-			Node left = mergeList(listOfNodes, start, mid);
-			Node right = mergeList(listOfNodes, mid + 1, end);
-			
-			return merge(left, right);
-			
-		}
-
-		private Node merge(Node node1, Node node2) {
-			
-			Node temp = new Node(-1);
-			Node node3 = temp;
-			
-			while(node1 != null && node2 != null) {
-				if(node1.getData() <= node2.getData()) {
-					node3.setNext(node1);
-					node1 = node1.getNext();
-				}else {
-					node3.setNext(node2);
+			if(val1>val2) {
+				Node tmp = new Node(val2);
+				node3.setNext(tmp);
+				if(node2.getNext() != null) {
 					node2 = node2.getNext();
 				}
-				node3 = node3.getNext();
-			}
-			if(!(node1 == null && node2 == null)) {
-			   node3.setNext(node1 == null ? node2 : node1);
-			}
-			return temp.getNext();
-			
-		}
-		
-		//remove kth node from end of the list
-		
-		public boolean removeKthNodeFromEnd(Node head, int k) { // 1,2,3,4,5,6,7,8
-			if(head == null)
-				return false;
-			Node cur = head;
-			Node kthNode = head;
-			
-			for(int i=0; i<=k; i++) {
-				if(kthNode.getNext() != null) {
-					kthNode = kthNode.getNext();
-				}else {
-					return false;
+			}else if(val1<val2) {
+				Node tmp = new Node(val1);
+				node3.setNext(tmp);
+				if(node1.getNext() != null) {
+					node1 = node1.getNext();
+				}
+			}else {
+				if(val1 != 0 && val2 != 0) {
+					Node tmp1 = new Node(val1);
+					Node tmp2 = new Node(val2);
+					tmp1.setNext(tmp2);
+					node3.setNext(tmp1);
 				}
 			}
-			
-			while(kthNode.getNext() != null) {
-				cur = cur.getNext();
-				kthNode = kthNode.getNext();
-			}
-			cur.setNext(cur.getNext().getNext());
-			cur = head;
-			return true;
+			node3 = node3.getNext();
 		}
-		
-		//reorder the linkedlist
-		
-		public Node reorderLinkedList(Node head) { //1,2,3,4     4,3,2,1
-			if(head == null)
-				return null;
-			Node cur = head;
-			Node rcur = reverseLinkedList(head);
-			
-			while(cur != rcur) {
-				cur.setNext(rcur);
-				cur = cur.getNext();
-				rcur = rcur.getNext();
-			}
-			cur.setNext(null);
-			head = cur;
-			return head;
-		}
-		
-		public Node reorderLL(Node head) {
-			if(head == null)
-				return null;
-			Node cur = head;
-			Node cur1 = head;
-			Stack<Node> st = new Stack<>();
-			
-			while(cur.getNext() != null) {
-				st.push(cur);
-				cur = cur.getNext();
-			}
-			
-			while(cur1 != st.peek()) {
-				cur1.setNext(st.pop());
-				cur1 = cur1.getNext();
-			}
-			cur1.setNext(null);
-			
-			head = cur1;
-			return head;
-			
-			
-		}
-		
-		//short a linkedlist
-		
-		public Node sortLinkedList(Node head) {
-			if(head == null)
-				return null;
-			Node cur = head;
-			
-			while(cur != null) {
-				Node next = cur.getNext();
-				Node minNode = cur;
-				
-				while(next != null) {
-					if(next.getData()<minNode.getData()) {
-						minNode = next;
-					}
-					
-					next = next.getNext();
-				}
-				
-				int temp = cur.data;
-				cur.data = minNode.data;
-				minNode.data = temp;
-				
-				
-				cur = cur.getNext();
-			}
-			cur = head;
-			return cur;
-		}
-		
-		public Node sortLinkedList1(Node head) {
-			if(head == null)
-				return null;
-			Node cur = head;
-			
-			List<Integer> ilist = new ArrayList<>();
-			
-			while(cur != null) {
-				ilist.add(cur.getData());
-				cur = cur.getNext();
-			}
-			
-			Collections.sort(ilist);
-			System.out.println(" list is :::: "+ilist);
-			
-			Node temp = new Node(0);
-			Node node1 = temp;
-			
-			for(int val : ilist) {
-				Node tmp = new Node(val);
-				node1.setNext(tmp);
-				node1 = node1.getNext();
-			}
-			
-			return temp.getNext();
-		}
+		return temp.getNext();
+	}
 	
+    public Node mergeSortedListRemoveDup(Node node1, Node node2) {
+		
+		Node temp = new Node(0);
+		Node node3 = temp;
+		
+		while(node1 != null || node2 != null) {
+			int val1 = node1 != null ? node1.getData() : 0;
+			int val2 = node2 != null ? node2.getData() : 0;
+			
+			if(val1>val2) {
+				Node tmp = new Node(val2);
+				node3.setNext(tmp);
+				if(node2 != null) {
+					node2 = node2.getNext();
+				}
+			}else if(val1<=val2) {
+				Node tmp = new Node(val1);
+				node3.setNext(tmp);
+				if(node1 != null) {
+					node1 = node1.getNext();
+				}
+			}
+			node3 = node3.getNext();
+		}
+		return temp.getNext();
+	}
+    
+    //merge a list of linkedlist
+    
+    public Node mergeListOfLinkedList(List<Node> listOfNodes) {
+    	
+    	if(listOfNodes.isEmpty())
+    		return null;
+    	
+    	return mergeList(listOfNodes, 0, listOfNodes.size()-1);
+    	
+    }
+	
+
+	private Node mergeList(List<Node> listOfNodes, int start, int end) {
+		
+		if(start == end) {
+			return listOfNodes.get(start);
+		}
+		
+		if(start + 1 == end) {
+			return merge(listOfNodes.get(start), listOfNodes.get(end));
+		}
+		
+		int mid = start + (end - start)/2;
+		
+		Node left = mergeList(listOfNodes, start, mid);
+		Node right = mergeList(listOfNodes, mid + 1, end);
+		
+		return merge(left, right);
+		
+	}
+
+	private Node merge(Node node1, Node node2) {
+		
+		Node temp = new Node(-1);
+		Node node3 = temp;
+		
+		while(node1 != null && node2 != null) {
+			if(node1.getData() <= node2.getData()) {
+				node3.setNext(node1);
+				node1 = node1.getNext();
+			}else {
+				node3.setNext(node2);
+				node2 = node2.getNext();
+			}
+			node3 = node3.getNext();
+		}
+		if(!(node1 == null && node2 == null)) {
+		   node3.setNext(node1 == null ? node2 : node1);
+		}
+		return temp.getNext();
+		
+	}
+	
+	//remove kth node from end of the list
+	
+	public boolean removeKthNodeFromEnd(Node head, int k) { // 1,2,3,4,5,6,7,8
+		if(head == null)
+			return false;
+		Node cur = head;
+		Node kthNode = head;
+		
+		for(int i=0; i<=k; i++) {
+			if(kthNode.getNext() != null) {
+				kthNode = kthNode.getNext();
+			}else {
+				return false;
+			}
+		}
+		
+		while(kthNode.getNext() != null) {
+			cur = cur.getNext();
+			kthNode = kthNode.getNext();
+		}
+		cur.setNext(cur.getNext().getNext());
+		cur = head;
+		return true;
+	}
+	
+	//reorder the linkedlist
+	
+	public Node reorderLinkedList(Node head) { //1,2,3,4     4,3,2,1
+		if(head == null)
+			return null;
+		Node cur = head;
+		Node rcur = reverseLinkedList(head);
+		
+		while(cur != rcur) {
+			cur.setNext(rcur);
+			cur = cur.getNext();
+			rcur = rcur.getNext();
+		}
+		cur.setNext(null);
+		head = cur;
+		return head;
+	}
+	
+	public Node reorderLL(Node head) {
+		if(head == null)
+			return null;
+		Node cur = head;
+		Node cur1 = head;
+		Stack<Node> st = new Stack<>();
+		
+		while(cur.getNext() != null) {
+			st.push(cur);
+			cur = cur.getNext();
+		}
+		
+		while(cur1 != st.peek()) {
+			cur1.setNext(st.pop());
+			cur1 = cur1.getNext();
+		}
+		cur1.setNext(null);
+		
+		head = cur1;
+		return head;
+		
+		
+	}
+	
+	//sort a linkedlist
+	
+	public Node sortLinkedList(Node head) {
+		if(head == null)
+			return null;
+		Node cur = head;
+		
+		while(cur != null) {
+			Node next = cur.getNext();
+			Node minNode = cur;
+			
+			while(next != null) {
+				if(next.getData()<minNode.getData()) {
+					minNode = next;
+				}
+				
+				next = next.getNext();
+			}
+			
+			int temp = cur.data;
+			cur.data = minNode.data;
+			minNode.data = temp;
+			
+			
+			cur = cur.getNext();
+		}
+		cur = head;
+		return cur;
+	}
+	
+	public Node sortLinkedList1(Node head) {
+		if(head == null)
+			return null;
+		Node cur = head;
+		
+		List<Integer> ilist = new ArrayList<>();
+		
+		while(cur != null) {
+			ilist.add(cur.getData());
+			cur = cur.getNext();
+		}
+		
+		Collections.sort(ilist);
+		System.out.println(" list is :::: "+ilist);
+		
+		Node temp = new Node(0);
+		Node node1 = temp;
+		
+		for(int val : ilist) {
+			Node tmp = new Node(val);
+			node1.setNext(tmp);
+			node1 = node1.getNext();
+		}
+		
+		return temp.getNext();
+	}
+
+// divide a circular list into two circular list	
+	
+	public List<Node> splitList(Node head) {
+	    if (head == null) 
+	    	return new ArrayList<>();
+
+	    Node slow = head;
+	    Node fast = head;
+	    
+	    List<Node> nodelist = new ArrayList<>();
+
+	    // 1. Find the midpoint
+	    // Fast moves 2 steps, slow moves 1. 
+	    // When fast reaches the end (or one before), slow is at the middle.
+	    while (fast.getNext() != head && fast.getNext().getNext() != head) {
+	        fast = fast.getNext().getNext();
+	        slow = slow.getNext();
+	    }
+
+	    // If even nodes, fast.next.next will be head. 
+	    // If odd, fast.next will be head. Move fast to the last node.
+	    if (fast.getNext().getNext() == head) {
+	        fast = fast.getNext();
+	    }
+
+	    // 2. Set the heads of the two lists
+	    Node head1 = head;
+	    Node head2 = slow.getNext();
+
+	    // 3. Make both lists circular
+	    fast.setNext(head2); // End of second list points to head of second
+	    slow.setNext(head1); // End of first list points to head of first
+	    
+	    // Now head1 and head2 are your two circular lists
+	    nodelist.add(head1);
+	    nodelist.add(head2);
+	    
+	    return nodelist;
+	    
+	}
+
+	public List<Node> splitInTwoCircularList(Node head){
+		
+		if(head == null)
+			return new ArrayList<>();
+		
+		Node slow = head;
+		Node fast = head;
+		
+		List<Node> nodelist = new ArrayList<>();
+		
+		while(fast.getNext() != head) {
+			fast = fast.getNext().getNext();
+			slow = slow.getNext();
+		}
+		
+		if(fast.getNext().getNext() == head ) { // for odd length have to move fast one step more
+			fast = fast.getNext();
+		}
+		
+		Node head1 = head;
+		Node head2 = slow.getNext();
+		
+		slow.setNext(head1);
+		fast.setNext(head2);
+		
+		nodelist.add(head1);
+		nodelist.add(head2);
+		
+		return nodelist;
+		
+	}
+	
+	// revere group of k nodes
+	
+	public Node reverseNNodes(Node head, int k) {
+    	if(head == null)
+    		return null;
+    	
+    	Node cur = head;
+    	int count=0;
+    	
+    	while(cur != null && count<k) {
+    		cur = cur.getNext();
+    		count++;
+    	}
+    	
+    	if(count == k) {
+    		
+    		cur = reverseNNodes(cur, k);
+    		
+    		while(count > 0) {
+    			count--;
+    			Node next = head.getNext();
+    			
+    			head.setNext(cur);
+    			cur = head;
+    			head = next;
+    			
+    		}
+    		head = cur;
+    		
+    	}
+    	
+    	return head;
+    	
+    	
+    }
+	
+	public static Node reverseNodeInKGroup(Node head, int k) {
+    	if(head == null || k<1)
+    		return null;
+    	
+    	Node cur = head;
+    	int count = 0;
+    	
+    	while(cur != null && count<k) {
+    		cur = cur.getNext();
+    		count++;
+    	}
+    	
+    	if(count == k) {
+    		
+    		Node prev = null;
+    		Node curr = head;
+    		Node next = null;
+    		
+    		for(int i=0; i<k; i++) {
+    			next = curr.getNext();
+    			curr.setNext(prev);
+    			prev = curr;
+    			curr = next;
+    		}
+    		
+    		if(next != null) {
+    			head.setNext(reverseNodeInKGroup(next, k));
+    		}
+    		
+    		return prev;
+    		
+    	}
+    	
+    	return head;
+    }
+	
+	public void printCircular(Node head) {
+        if (head == null) 
+        	return;
+        
+        Node temp = head;
+        do {
+            System.out.print(temp.data + " -> ");
+            temp = temp.next;
+        } while (temp != head);
+        System.out.println("(back to head " + head.data + ")");
+    }	
 	
 	
 	public static void main(String[] args) {

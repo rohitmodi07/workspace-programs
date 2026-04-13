@@ -9,6 +9,10 @@ public class TestFactoryPattern {
 		var circle = af.findArea("circle");
 		System.out.println(circle.area(10));
 		
+		SportsFactory sf = new SportsFactory();
+		var football = sf.play("football");
+		football.play();
+		
 	}
 	
 
