@@ -2,6 +2,7 @@ package leetcode.slidingWindow;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SlidingWindowMax {
 	
@@ -67,6 +68,59 @@ public class SlidingWindowMax {
 		
 		return nlist;
 	}
+	
+	
+    public static Optional<int[]> maxSlidingWindowNew(int[] nums, int k) {
+        
+    	if(nums == null || nums.length<1)
+    		return Optional.empty();
+    	
+    	List<Integer> ilist = new ArrayList<>();
+    	
+    	for(int i=0; i<=nums.length-k; i++) {   // 0,3   1,4   2,5
+    		
+    		int t = i;
+    		int j = t+k;
+    		int max = Integer.MIN_VALUE;
+    		
+    		while(t<j) {
+    			max = Math.max(max, nums[t]);
+    			t++;
+    		}
+    		
+    		ilist.add(max);
+    		
+    	}
+    	
+    	return Optional.of(ilist.stream().mapToInt(Integer::intValue).toArray());
+    }
+    
+    public static int[] maxSlidingWindowLatest(int[] nums, int k) {
+        
+    	if(nums == null || nums.length<1 || k<1)
+    		return null;
+    	
+    	int n = nums.length;
+    	
+    	int[] result = new int[n-k+1];
+    	
+    	for(int left=0; left<=n-k; left++) {
+    		
+    		int max = Integer.MIN_VALUE;
+    		
+    		for(int right=left; right<left+k; right++) {
+    			
+    			max = Math.max(max, nums[right]);
+    			
+    		}
+    		
+    		result[left] = max;
+    		
+    	}
+    	
+    	return result;
+    	
+    }
    
 
 	public static void main(String[] args) {

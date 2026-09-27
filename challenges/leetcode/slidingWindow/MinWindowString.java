@@ -144,6 +144,99 @@ public class MinWindowString {
 	        }
 	        return maxSt;
 	    }
+		
+		public static String minWindowLatest(String st, String tt) {
+			if(st == null || st.isBlank() || tt == null || tt.isBlank() || st.length()<tt.length())
+				return "";
+			
+			Set<Character> cset = new HashSet<>();
+			
+			for(char c : tt.toCharArray()) {
+				cset.add(c);
+			}
+			
+			int k=0;
+			StringBuilder sb = new StringBuilder();
+			String maxlen = st;
+			
+			for(int i=k; i<st.length(); i++) {
+				
+				char c1 = st.charAt(i);
+				
+				
+				if(cset.contains(c1)) {
+					
+					sb.append(c1);
+					
+					int j=i+1;
+					int count = 1;
+					while(j<st.length() && count<cset.size()) {
+						sb.append(st.charAt(j));
+						if(cset.contains(st.charAt(j))) {
+							count++;
+						}
+						j++;
+					}
+					
+					k=i+1;
+					maxlen = maxlen.length()>sb.length() && count==3 ? sb.toString() : maxlen;
+					sb = new StringBuilder();
+				}
+				
+			}
+			return maxlen;
+		}
+		
+
+	    public static String minWindowEasy(String dst, String src) {
+	        
+	    	if(src == null || dst == null || src.isBlank() || dst.isBlank() || dst.length()<src.length())
+	    		return "";
+	    	
+	    	// Input: s = "OUZODYXAZV", t = "XYZ"
+	    	
+	    	Set<Character> set1 = new HashSet<>();
+	    	for(char c : src.toCharArray()) {
+	    		set1.add(c);
+	    	}
+	    	
+	    	String maxSt = dst;
+	    	int len = src.length()-1;
+	    	
+	    	for(int i=0; i<dst.length()-len; i++) {
+	    		
+	    		char c1 = dst.charAt(i);
+	    		
+	    		if(set1.contains(c1)) {
+	    			int j = i+1;
+	    			
+	    			Set<Character> set2 = new HashSet<>();
+	    			StringBuilder sb = new StringBuilder();
+	    			
+	    			set2.add(c1);
+	    			sb.append(c1);
+	    			
+	    			while(j<dst.length() && set2.size()<set1.size()) {
+	    				
+	    				char c2 = dst.charAt(j);
+	    				
+	    				sb.append(c2);
+	    				if(set1.contains(c2)) {
+	    					set2.add(c2);
+	    				}
+	    				j++;
+	    				
+	    			}
+	    			if(set2.size() == set1.size()) {
+	    				maxSt = maxSt.length()>=sb.length() ? sb.toString() : maxSt;
+	    			}
+	    			
+	    			set2 = new HashSet<>();
+	    			sb = new StringBuilder();
+	    		}
+	    	}
+	    	return maxSt;
+	    }
 
 		public static void main(String[] args) {
 			

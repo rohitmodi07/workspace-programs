@@ -10,9 +10,6 @@ public static boolean isValidSudoku(String[][] board) {
     	if(board == null || board.length<1)
     		return false;
     	
-    	int row = board.length;
-    	int col = board[0].length;
-    	
     	
     	for(int r=0; r<9; r++) {
     		
@@ -97,7 +94,8 @@ public static boolean isValidSudoku(String[][] board) {
     		   {"7",".",".",".","2",".",".",".","6"},
     		   {".",".",".",".",".",".","2",".","."},
     		   {".",".",".","4","1","9",".",".","8"},
-    		   {".",".",".",".","8",".",".","7","9"}};
+    		   {".",".",".",".","8",".",".","7","9"}
+    	};
        
        System.out.println(" valid sudoku :::: "+isValidSudoku(board1));
 		
